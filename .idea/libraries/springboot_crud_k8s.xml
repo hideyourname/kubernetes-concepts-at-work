@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="springboot-crud-k8s">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/springboot-crud-k8s-main/target/springboot-crud-k8s.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

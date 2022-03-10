@@ -1,0 +1,23 @@
+apiVersion: apps/v1 #version of this deployment/object
+kind: Deployment #kind of object we want to create
+metadata: #metadata about our deployment, data about data :)
+  name: simple-ex ample-deployment    #name of the obj we creating - deployment name in this case
+spec: #specc of this deployment obj, how it will be configured, for the overral deployment
+  replicas: 2 #number of pod instance we want for default value = 2 pod deployment in this case
+  selector: #controll witch pods this deployment should control
+    matchLabels: #it need to match this label pod definition below
+      app: simple-example
+
+      #-> template for this deployment ---> below
+  template: #what pods should be created for this deployment
+    #kind we dont need because deployment always describe a pod
+    metadata: #a pod is a new object in Kubernetes, even if is nested inside an another obj, we need metadata about this obj
+      labels: #this created pod have this label on it
+        #tier: backed can have multiple labels, depends of what we want
+        app: simple-example #key - value pair are up to us, etc: abc //valid
+    spec: #spec for our pod, how our pod will be configured
+      containers: #define which container/s should be part of this pod
+        - name: simple_container #containerName
+          image: cinevacineva/simple-example-kubernetes #image for that pod/container
+
+#kubectl apply -f=fineNameDeployment.yaml

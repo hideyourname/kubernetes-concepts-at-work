@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="car_called" />
+        <module name="driver_calling" />
+        <module name="simple_example" />
+        <module name="student_persistent_volume_example" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="book-persistent-volume-example" target="11" />
+      <module name="car_called" target="11" />
+      <module name="driver_calling" target="11" />
+      <module name="simple_example" target="11" />
+      <module name="student_persistent_volume_example" target="11" />
+      <module name="user-persistent-volume-example" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="book-persistent-volume-example" options="-parameters" />
+      <module name="simple_example" options="-parameters" />
+    </option>
+  </component>
+</project>

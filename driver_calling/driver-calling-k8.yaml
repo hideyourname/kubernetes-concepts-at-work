@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: driver-calling-deployment
+spec:
+  selector:
+    matchLabels:
+      driver-calling: app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        driver-calling: app
+    spec:
+      containers:
+        - name: driver-calling-container
+          image: cinevacineva/driver-calling
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: host
+
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: db
+
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: username
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: driver-calling-service
+spec:
+  selector:
+    driver-calling: app
+  ports:
+    - protocol: 'TCP'
+      port: 8000
+      targetPort: 8000
+  type: NodePort
+
+  #minikube docker-env | Invoke-Expression
+

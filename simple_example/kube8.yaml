@@ -1,0 +1,56 @@
+apiVersion: v1 #version of this Service kind Object
+kind: Service #kind of Kube obk we want to create
+metadata: #data about data, about our service
+  name: backend #dns name
+spec: #configure this service obj
+  selector: #identifies which other resources should be controller or connected by this resource/obj
+    #which pods should be part of this service
+    #service expose pods to the outside world
+    app: simple-example #label of that pod we want to control/connect with
+  ports: # which ports to be exposed
+    - protocol: 'TCP'
+      port: 8081 # port to be exposed
+      targetPort: 8080 #port inside the container
+    #many ports etc
+  type: LoadBalancer #Type for the Service, external or internal ip, ClusterIp for the cluster, NodePort for the workerNode ip, and LoadBalancer for the outsideWorld
+
+
+    #minikube service backend
+
+
+
+
+---
+apiVersion: apps/v1 #version of this deployment/object
+kind: Deployment #kind of object we want to create
+metadata: #metadata about our deployment, data about data :)
+  name: simple-example-deployment    #name of the obj we creating - deployment name in this case
+spec: #specc of this deployment obj, how it will be configured, for the overral deployment
+  replicas: 2 #number of pod instance we want for default value = 2 pod deployment in this case
+  selector: #controll witch pods this deployment should control
+    matchLabels: #it need to match this label pod definition below
+      app: simple-example
+
+      #-> template for this deployment ---> below
+  template: #what pods should be created for this deployment
+    #kind we dont need because deployment always describe a pod
+    metadata: #a pod is a new object in Kubernetes, even if is nested inside an another obj, we need metadata about this obj
+      labels: #this created pod have this label on it
+        #tier: backed can have multiple labels, depends of what we want
+        app: simple-example #key - value pair are up to us, etc: abc //valid
+    spec: #spec for our pod, how our pod will be configured
+      containers: #define which container/s should be part of this pod
+        - name: simple-container #containerName
+          image: cinevacineva/kubernetes_simple_example #image for that pod/container
+          imagePullPolicy: Always #always pull the latest image
+
+
+
+ #         livenessProbe: #check health
+ #           httpGet: #make a getRequest
+ #             path: /actuator #make a get request to actuator/health path
+ #             port: 8080 #on containerPort
+ #            periodSeconds: 10 #check interval
+ #            initialDelaySeconds: 3000 #wait till to get request
+
+#kubectl apply -f=fineNameDeployment.yaml

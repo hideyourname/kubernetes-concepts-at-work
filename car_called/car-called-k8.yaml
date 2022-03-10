@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: car-called-deployment
+spec:
+  selector:
+    matchLabels:
+      car-called: app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        car-called: app
+    spec:
+      containers:
+        - name: car-called-container
+          image: cinevacineva/car-called
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 7000
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: host
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: database
+
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: car-called-service
+spec:
+  selector:
+    car-called: app
+  ports:
+    - protocol: 'TCP'
+      port: 7000
+      targetPort: 7000
+  type: NodePort
